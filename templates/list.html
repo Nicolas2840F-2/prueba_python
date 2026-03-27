@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .list-card { animation: fadeUp .5s ease both; }
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+    }
+
+    .data-table { margin: 0; }
+
+    .data-table thead {
+        background: var(--surface2);
+    }
+
+    .data-table thead th:first-child { border-radius: 10px 0 0 0; }
+    .data-table thead th:last-child  { border-radius: 0 10px 0 0; }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 1rem;
+        color: var(--muted);
+    }
+    .empty-state svg {
+        opacity: .35;
+        margin-bottom: 1rem;
+    }
+    .empty-state p {
+        font-size: .9rem;
+    }
+
+    .count-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(91,124,246,.15);
+        color: var(--accent-h);
+        font-size: .72rem;
+        font-weight: 600;
+        letter-spacing: .04em;
+        width: 24px; height: 24px;
+        border-radius: 6px;
+        vertical-align: middle;
+        margin-left: .5rem;
+    }
+
+    .list-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+</style>
+
+<div class="list-card">
+    <div class="list-header">
+        <div>
+            <h2 class="section-heading">
+                Trabajos
+                <span class="count-badge">{{ trabajos|length if trabajos else 0 }}</span>
+            </h2>
+            <p class="section-sub" style="margin-bottom:0">Listado completo de trabajos registrados.</p>
+        </div>
+        <a href="/form" class="btn-primary-custom">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Nuevo trabajo
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Tipo</th>
+                    <th>Autor</th>
+                    <th>Curso</th>
+                    <th>Especialidad</th>
+                    <th style="text-align:right">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if trabajos %}
+                    {% for t in trabajos %}
+                    <tr>
+                        <td style="font-weight:500;color:var(--text)">{{ t.titulo }}</td>
+                        <td><span class="badge-soft">{{ t.tipo_trabajo }}</span></td>
+                        <td>{{ t.autor }}</td>
+                        <td>{{ t.curso }}</td>
+                        <td>{{ t.especialidad }}</td>
+                        <td style="text-align:right">
+                            <a href="/generar_pdf/{{ t.id }}" class="btn-danger-custom">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                                Descargar PDF
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                <p>No hay trabajos registrados aún.</p>
+                                <a href="/form" class="btn-primary-custom" style="margin-top:.75rem">Agregar primero</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

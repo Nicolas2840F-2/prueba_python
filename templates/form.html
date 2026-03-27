@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .form-card {
+        animation: fadeUp .5s ease both;
+    }
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.1rem 1.5rem;
+    }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group.span-2 { grid-column: span 2; }
+
+    .file-label {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        padding: .65rem 1rem;
+        background: var(--surface2);
+        border: 1px dashed var(--border);
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: .85rem;
+        color: var(--muted);
+        transition: border-color .2s, color .2s;
+        user-select: none;
+    }
+    .file-label:hover { border-color: var(--accent); color: var(--accent); }
+    .file-label input[type="file"] { display: none; }
+    .file-label .file-name {
+        font-size: .8rem;
+        color: var(--accent-h);
+        margin-left: auto;
+        max-width: 160px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .form-footer {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+        margin-top: .5rem;
+    }
+
+    .required-note {
+        font-size: .76rem;
+        color: var(--muted);
+        margin-left: auto;
+    }
+    .required-note span { color: var(--danger); }
+
+    @media (max-width: 600px) {
+        .form-grid { grid-template-columns: 1fr; }
+        .form-group.span-2 { grid-column: span 1; }
+    }
+</style>
+
+<div class="form-card">
+    <h2 class="section-heading">Nuevo Trabajo</h2>
+    <p class="section-sub">Completa todos los campos obligatorios para registrar el trabajo.</p>
+
+    <div class="panel">
+        <form method="POST" enctype="multipart/form-data" id="trabajo-form" novalidate>
+
+            <div class="form-grid">
+
+                <!-- Título -->
+                <div class="form-group span-2">
+                    <label class="form-label" for="titulo">Título <span style="color:var(--danger)">*</span></label>
+                    <input id="titulo" name="titulo" type="text" placeholder="Ej: Análisis de algoritmos de ordenamiento"
+                           class="form-control" required minlength="3">
+                    <div class="invalid-feedback">El título es obligatorio (mín. 3 caracteres).</div>
+                </div>
+
+                <!-- Tipo de trabajo -->
+                <div class="form-group">
+                    <label class="form-label" for="tipo_trabajo">Tipo de trabajo <span style="color:var(--danger)">*</span></label>
+                    <select id="tipo_trabajo" name="tipo_trabajo" class="form-select" required>
+                        <option value="" disabled selected>Selecciona un tipo</option>
+                        <option value="tr1">tr1</option>
+                        <option value="tr2">tr2</option>
+                        <option value="tr3">tr3</option>
+                    </select>
+                    <div class="invalid-feedback">Selecciona un tipo de trabajo.</div>
+                </div>
+
+                <!-- Autor -->
+                <div class="form-group">
+                    <label class="form-label" for="autor">Autor <span style="color:var(--danger)">*</span></label>
+                    <input id="autor" name="autor" type="text" placeholder="Nombre completo del autor"
+                           class="form-control" required minlength="2">
+                    <div class="invalid-feedback">El autor es obligatorio (mín. 2 caracteres).</div>
+                </div>
+
+                <!-- Universidad -->
+                <div class="form-group">
+                    <label class="form-label" for="universidad">Universidad <span style="color:var(--danger)">*</span></label>
+                    <input id="universidad" name="universidad" type="text" placeholder="Nombre de la institución"
+                           class="form-control" required minlength="3">
+                    <div class="invalid-feedback">Ingresa el nombre de la universidad.</div>
+                </div>
+
+                <!-- Ciudad -->
+                <div class="form-group">
+                    <label class="form-label" for="ciudad">Ciudad <span style="color:var(--danger)">*</span></label>
+                    <input id="ciudad" name="ciudad" type="text" placeholder="Ciudad de presentación"
+                           class="form-control" required>
+                    <div class="invalid-feedback">La ciudad es obligatoria.</div>
+                </div>
+
+                <!-- Curso -->
+                <div class="form-group">
+                    <label class="form-label" for="curso">Curso <span style="color:var(--danger)">*</span></label>
+                    <select id="curso" name="curso" class="form-select" required>
+                        <option value="" disabled selected>Selecciona un curso</option>
+                        <option value="curso1">curso1</option>
+                        <option value="curso2">curso2</option>
+                        <option value="curso3">curso3</option>
+                    </select>
+                    <div class="invalid-feedback">Selecciona un curso.</div>
+                </div>
+
+                <!-- Especialidad -->
+                <div class="form-group">
+                    <label class="form-label" for="especialidad">Especialidad <span style="color:var(--danger)">*</span></label>
+                    <select id="especialidad" name="especialidad" class="form-select" required>
+                        <option value="" disabled selected>Selecciona una especialidad</option>
+                        <option value="esp1">esp1</option>
+                        <option value="esp2">esp2</option>
+                        <option value="esp3">esp3</option>
+                    </select>
+                    <div class="invalid-feedback">Selecciona una especialidad.</div>
+                </div>
+
+                <!-- Palabras clave -->
+                <div class="form-group span-2">
+                    <label class="form-label" for="palabras">Palabras clave <span style="color:var(--danger)">*</span></label>
+                    <textarea id="palabras" name="palabras" class="form-control" rows="2"
+                              placeholder="Ej: algoritmos, ordenamiento, complejidad…" required minlength="5"></textarea>
+                    <div class="invalid-feedback">Ingresa al menos una palabra clave.</div>
+                </div>
+
+                <!-- Resumen -->
+                <div class="form-group span-2">
+                    <label class="form-label" for="resumen">Resumen <span style="color:var(--danger)">*</span></label>
+                    <textarea id="resumen" name="resumen" class="form-control" rows="4"
+                              placeholder="Describe brevemente el trabajo (mín. 20 caracteres)…" required minlength="20"></textarea>
+                    <div class="invalid-feedback">El resumen debe tener al menos 20 caracteres.</div>
+                </div>
+
+                <!-- Imagen -->
+                <div class="form-group">
+                    <label class="form-label" for="imagen">Imagen de portada</label>
+                    <label class="file-label">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        Seleccionar imagen
+                        <input type="file" id="imagen" name="imagen" accept="image/*">
+                        <span class="file-name" id="imagen-name"></span>
+                    </label>
+                    <small style="color:var(--muted);font-size:.75rem;margin-top:.3rem">Formatos: JPG, PNG, WEBP</small>
+                </div>
+
+                <!-- PDF -->
+                <div class="form-group">
+                    <label class="form-label" for="pdf">Archivo PDF <span style="color:var(--danger)">*</span></label>
+                    <label class="file-label" id="pdf-label">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        Seleccionar PDF
+                        <input type="file" id="pdf" name="pdf" accept="application/pdf" required>
+                        <span class="file-name" id="pdf-name"></span>
+                    </label>
+                    <div class="invalid-feedback" id="pdf-error" style="display:none">El archivo PDF es obligatorio.</div>
+                </div>
+
+            </div><!-- /form-grid -->
+
+            <div class="form-footer">
+                <button type="submit" class="btn-primary-custom">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    Guardar
+                </button>
+                <a href="/" class="nav-link-btn">Cancelar</a>
+                <span class="required-note"><span>*</span> Campos obligatorios</span>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+(function () {
+    // File input labels
+    function bindFileLabel(inputId, nameId) {
+        const input = document.getElementById(inputId);
+        const nameEl = document.getElementById(nameId);
+        if (!input || !nameEl) return;
+        input.addEventListener('change', () => {
+            nameEl.textContent = input.files[0] ? input.files[0].name : '';
+        });
+    }
+    bindFileLabel('imagen', 'imagen-name');
+    bindFileLabel('pdf', 'pdf-name');
+
+    // Bootstrap-style validation
+    const form = document.getElementById('trabajo-form');
+    form.addEventListener('submit', function (e) {
+        let valid = true;
+
+        // Standard HTML5 fields
+        const fields = form.querySelectorAll('[required]');
+        fields.forEach(function (field) {
+            if (field.type === 'file') return; // handled separately
+            if (!field.value.trim() || !field.checkValidity()) {
+                field.classList.add('is-invalid');
+                valid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        // PDF file validation
+        const pdfInput = document.getElementById('pdf');
+        const pdfError = document.getElementById('pdf-error');
+        const pdfLabel = document.getElementById('pdf-label');
+        if (!pdfInput.files || pdfInput.files.length === 0) {
+            pdfLabel.style.borderColor = 'var(--danger)';
+            pdfError.style.display = 'block';
+            valid = false;
+        } else {
+            pdfLabel.style.borderColor = '';
+            pdfError.style.display = 'none';
+        }
+
+        if (!valid) {
+            e.preventDefault();
+            e.stopPropagation();
+            // Scroll to first error
+            const firstInvalid = form.querySelector('.is-invalid, [style*="border-color: var(--danger)"]');
+            if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+
+    // Live validation: remove error on fix
+    form.querySelectorAll('.form-control, .form-select').forEach(function (el) {
+        el.addEventListener('input', function () {
+            if (el.checkValidity() && el.value.trim()) {
+                el.classList.remove('is-invalid');
+            }
+        });
+        el.addEventListener('change', function () {
+            if (el.checkValidity() && el.value.trim()) {
+                el.classList.remove('is-invalid');
+            }
+        });
+    });
+})();
+</script>
+
+{% endblock %}

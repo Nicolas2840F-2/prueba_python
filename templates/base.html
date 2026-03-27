@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:        #0f1117;
+            --surface:   #181c27;
+            --surface2:  #1f2436;
+            --border:    #2a3050;
+            --accent:    #5b7cf6;
+            --accent-h:  #7b9aff;
+            --danger:    #e05a6e;
+            --success:   #3ecf8e;
+            --text:      #e8eaf2;
+            --muted:     #7880a0;
+            --serif:     'DM Serif Display', Georgia, serif;
+            --sans:      'DM Sans', system-ui, sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* ── Navbar ── */
+        .site-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .site-nav .brand {
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: .02em;
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+        .site-nav .brand::before {
+            content: '';
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: inline-block;
+        }
+
+        .nav-link-btn {
+            font-family: var(--sans);
+            font-size: .8rem;
+            font-weight: 500;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            padding: .4rem .9rem;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            transition: color .2s, border-color .2s, background .2s;
+        }
+        .nav-link-btn:hover,
+        .nav-link-btn.active {
+            color: var(--text);
+            border-color: var(--border);
+            background: var(--surface2);
+        }
+
+        /* ── Main wrapper ── */
+        .main-wrapper {
+            min-height: calc(100vh - 60px);
+            padding: 2.5rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* ── Cards / panels ── */
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        /* ── Form controls ── */
+        .form-label {
+            font-size: .8rem;
+            font-weight: 500;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: .35rem;
+        }
+        .form-control,
+        .form-select {
+            background: var(--surface2) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text) !important;
+            border-radius: 8px !important;
+            padding: .65rem 1rem !important;
+            font-family: var(--sans);
+            font-size: .9rem;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .form-control::placeholder { color: var(--muted) !important; }
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--accent) !important;
+            box-shadow: 0 0 0 3px rgba(91,124,246,.18) !important;
+            outline: none !important;
+        }
+        .form-control.is-invalid,
+        .form-select.is-invalid {
+            border-color: var(--danger) !important;
+            box-shadow: 0 0 0 3px rgba(224,90,110,.15) !important;
+        }
+        .invalid-feedback {
+            font-size: .78rem;
+            color: var(--danger);
+        }
+        .form-select option { background: var(--surface2); }
+
+        /* ── Buttons ── */
+        .btn-primary-custom {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: .65rem 1.6rem;
+            font-family: var(--sans);
+            font-size: .85rem;
+            font-weight: 500;
+            letter-spacing: .05em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            transition: background .2s, transform .15s;
+        }
+        .btn-primary-custom:hover { background: var(--accent-h); transform: translateY(-1px); color: #fff; }
+
+        .btn-success-custom {
+            background: transparent;
+            color: var(--success);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            padding: .65rem 1.6rem;
+            font-family: var(--sans);
+            font-size: .85rem;
+            font-weight: 500;
+            letter-spacing: .05em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            transition: background .2s, transform .15s;
+        }
+        .btn-success-custom:hover { background: rgba(62,207,142,.1); transform: translateY(-1px); color: var(--success); }
+
+        .btn-danger-custom {
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            border-radius: 6px;
+            padding: .35rem .9rem;
+            font-family: var(--sans);
+            font-size: .78rem;
+            font-weight: 500;
+            letter-spacing: .05em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            transition: background .2s;
+        }
+        .btn-danger-custom:hover { background: rgba(224,90,110,.12); color: var(--danger); }
+
+        /* ── Table ── */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: .88rem;
+        }
+        .data-table thead th {
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: .75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-table tbody tr {
+            transition: background .15s;
+        }
+        .data-table tbody tr:hover { background: var(--surface2); }
+        .data-table tbody td {
+            padding: .85rem 1rem;
+            border-bottom: 1px solid rgba(42,48,80,.5);
+            vertical-align: middle;
+            color: var(--text);
+        }
+
+        /* ── Section heading ── */
+        .section-heading {
+            font-family: var(--serif);
+            font-size: 1.7rem;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: .25rem;
+        }
+        .section-sub {
+            font-size: .85rem;
+            color: var(--muted);
+            margin-bottom: 1.75rem;
+        }
+
+        /* ── Badge ── */
+        .badge-soft {
+            display: inline-block;
+            padding: .2rem .6rem;
+            border-radius: 4px;
+            font-size: .72rem;
+            font-weight: 500;
+            letter-spacing: .04em;
+            background: rgba(91,124,246,.15);
+            color: var(--accent-h);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="site-nav">
+    <a class="brand" href="/">Dashboard</a>
+    <a class="nav-link-btn" href="/form">Formulario</a>
+    <a class="nav-link-btn" href="/list">Listado</a>
+</nav>
+
+<div class="main-wrapper">
+    {% block content %}{% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .dashboard-hero {
+        min-height: calc(100vh - 60px - 5rem);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        gap: 1.25rem;
+        animation: fadeUp .6s ease both;
+    }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(18px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: var(--accent);
+    }
+
+    .hero-title {
+        font-family: var(--serif);
+        font-size: clamp(2.8rem, 6vw, 4.5rem);
+        font-weight: 400;
+        line-height: 1.1;
+        color: var(--text);
+    }
+
+    .hero-title em {
+        font-style: italic;
+        color: var(--accent-h);
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        color: var(--muted);
+        max-width: 360px;
+    }
+
+    .hero-divider {
+        width: 40px;
+        height: 2px;
+        background: var(--border);
+        border-radius: 2px;
+    }
+
+    .hero-actions {
+        display: flex;
+        gap: .85rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: .5rem;
+    }
+</style>
+
+<div class="dashboard-hero">
+    <p class="hero-eyebrow">Panel de control</p>
+    <h1 class="hero-title">Bienvenido</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-subtitle">  Gestiona trabajos académicos desde aquí.</p>
+    <div class="hero-actions">
+        <a href="/form" class="btn-primary-custom">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+            Ir a Formulario
+        </a>
+        <a href="/list" class="btn-success-custom">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+            Ver Listado
+        </a>
+    </div>
+</div>
+
+{% endblock %}
