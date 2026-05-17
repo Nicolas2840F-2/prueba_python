@@ -8,6 +8,9 @@ import os
 app = Flask(__name__)
 app.config.from_object(Config)
 
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(app.config['PDF_FOLDER'], exist_ok=True)
+
 db.init_app(app)
 
 # Crear tablas
@@ -67,6 +70,6 @@ def generar_pdf_route(id):
     return send_file(buffer, as_attachment=True,download_name=f"{id}.pdf",mimetype='application/pdf')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
 
     
